@@ -137,7 +137,7 @@ Saisir la somme, l’intitulé, la catégorie et enregistrer le tout dans un fic
 |-----------|------------------------------|-------------------------------|
 | Excel / Google Sheets | Lecture/visualisation manuelle du CSV. | Hors du cadre du projet automatisé. |
 
-**💬 Analyse :**  
+** Analyse :**  
 Utilisation combinée `pandas` + `rich` → solution lisible et rapide à coder.  
 Maintenance : bibliothèques populaires et documentées.
 
