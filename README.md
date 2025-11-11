@@ -152,7 +152,7 @@ Maintenance : bibliothèques populaires et documentées.
 | `csv`    | Parcourir et additionner les lignes.  | Code long et répétitif.   |
 | `pandas` | Somme directe : `df["Montant"].sum()`. | Nécessite installation.  |
 
-**💬 Analyse :**  
+**Analyse :**  
 `pandas` rend la tâche quasi instantanée et fiable.  
 Solution standard avec `csv` possible mais plus lourde à maintenir.
 
