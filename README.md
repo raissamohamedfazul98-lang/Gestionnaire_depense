@@ -78,7 +78,7 @@ Les dépenses sont sauvegardées dans un fichier CSV avec la date et la balance 
 
 ## Fonctionnalités et choix des briques logicielles
 
-### 1️⃣ Ajouter une dépense
+### Ajouter une dépense
 
 **Objectif :**  
 Saisir la somme, l’intitulé, la catégorie et enregistrer le tout dans un fichier CSV, avec la date et la balance mise à jour.
@@ -104,7 +104,7 @@ Saisir la somme, l’intitulé, la catégorie et enregistrer le tout dans un fic
 |------------------|----------------------------------------|------------------------------------|
 | LibreOffice Calc / Excel | Création manuelle de CSV pour tests. | Non automatisé, ne s’intègre pas au code. |
 
-**💬 Analyse :**  
+**Analyse :**  
 
 - Facilité d’installation : `csv` et `datetime` inclus dans Python.  
 - Facilité d’utilisation : `pandas` simplifie grandement la manipulation.  
@@ -113,7 +113,7 @@ Saisir la somme, l’intitulé, la catégorie et enregistrer le tout dans un fic
 
 ---
 
-### 2️⃣ Afficher les dépenses
+### Afficher les dépenses
 
 **Objectif :** Lire le fichier CSV et afficher la liste triée par date.
 
@@ -137,13 +137,13 @@ Saisir la somme, l’intitulé, la catégorie et enregistrer le tout dans un fic
 |-----------|------------------------------|-------------------------------|
 | Excel / Google Sheets | Lecture/visualisation manuelle du CSV. | Hors du cadre du projet automatisé. |
 
-**💬 Analyse :**  
+**Analyse :**  
 Utilisation combinée `pandas` + `rich` → solution lisible et rapide à coder.  
 Maintenance : bibliothèques populaires et documentées.
 
 ---
 
-### 3️⃣ Calculer la balance totale
+### Calculer la balance totale
 
 **Objectif :** Faire la somme automatique des montants après chaque ajout.
 
@@ -152,13 +152,13 @@ Maintenance : bibliothèques populaires et documentées.
 | `csv`    | Parcourir et additionner les lignes.  | Code long et répétitif.   |
 | `pandas` | Somme directe : `df["Montant"].sum()`. | Nécessite installation.  |
 
-**💬 Analyse :**  
+**Analyse :**  
 `pandas` rend la tâche quasi instantanée et fiable.  
 Solution standard avec `csv` possible mais plus lourde à maintenir.
 
 ---
 
-### 4️⃣ Filtrer les dépenses
+### Filtrer les dépenses
 
 **Objectif :** Afficher uniquement certaines dépenses selon une catégorie, une date ou un montant.
 
@@ -168,13 +168,13 @@ Solution standard avec `csv` possible mais plus lourde à maintenir.
 | `pandas` | Filtrage simple : `df[df["Catégorie"] == "Transport"]`. | Nécessite installation. |
 | `typer`  | Permet de définir des commandes CLI comme `filtrer --categorie Transport`. | Nécessite apprentissage de la CLI. |
 
-**💬 Analyse :**  
+**Analyse :**  
 `pandas` reste le meilleur outil pour filtrer rapidement des données structurées.  
 `typer` permet une interface ergonomique pour l’utilisateur.
 
 ---
 
-### 5️⃣ Supprimer une dépense
+### Supprimer une dépense
 
 **Objectif :** Permettre de retirer une dépense du fichier CSV.
 
@@ -189,7 +189,7 @@ Gestion manuelle avec `csv` possible mais laborieuse.
 
 ---
 
-### 6️⃣ Autocomplétion des catégories
+### Autocomplétion des catégories
 
 **Objectif :** Proposer automatiquement les catégories déjà utilisées.
 
@@ -208,7 +208,7 @@ Compatible Windows, macOS et Linux.
 
 ---
 
-### 7️⃣ Exporter les dépenses
+### Exporter les dépenses
 
 **Objectif :** Exporter les données dans d’autres formats (PDF, Excel…).
 
