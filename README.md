@@ -47,12 +47,6 @@ Les dépenses sont sauvegardées dans un fichier CSV avec la date et la balance 
 5.**Suppression d’une dépense**
    -Permettre de retirer une dépense du fichier CSV.
 
-6.**Autocomplétion des catégories**
-   -Par catégorie, par date ou par montant.
-
-7.**Exportation**
-   -Exporter le résumé des dépenses dans un autre fichier (PDF, Excel...).
-
 ---
 
 ## Dépendances entre les fonctionnalités
@@ -64,8 +58,6 @@ Les dépenses sont sauvegardées dans un fichier CSV avec la date et la balance 
 | 3. Calculer la balance totale | #1 |
 | 6. Filtrer les dépenses | #2 |
 | 5. Supprimer une dépense | #1 |
-| 4. Autocomplétion des catégories | #1 |
-| 7. Exporter les dépenses | #2, #3 |
 
 ---
 
@@ -78,158 +70,113 @@ Les dépenses sont sauvegardées dans un fichier CSV avec la date et la balance 
 
 ## Fonctionnalités et choix des briques logicielles
 
-### 1️ Ajouter une dépense
+---
+
+### 1 Ajouter une dépense
 
 **Objectif :**  
 Saisir la somme, l’intitulé, la catégorie et enregistrer le tout dans un fichier CSV, avec la date et la balance mise à jour.
 
 **Modules Python standard :**
 
-| Module   | Service rendu                                      | Limites                               |
-|----------|---------------------------------------------------|--------------------------------------|
-| `csv`    | Lire et écrire facilement dans un fichier CSV.   | Gestion manuelle des erreurs et conversions. |
-| `datetime` | Enregistrer automatiquement la date du jour.  | Formatage manuel nécessaire.          |
-| `os`     | Gérer les chemins de fichiers.                   | Pas utile pour la logique métier.    |
+| Module      | Service rendu                                   | Limites                                     |
+|-------------|--------------------------------------------------|---------------------------------------------|
+| `csv`       | Lire et écrire facilement dans un fichier CSV.  | Gestion manuelle des erreurs et conversions. |
+| `datetime`  | Enregistrer automatiquement la date du jour.    | Formatage manuel nécessaire.                |
+| `pathlib`   | Gestion moderne et lisible des chemins de fichiers. | Ne gère pas la logique métier.             |
+| `argparse`  | Permet de récupérer des arguments en ligne de commande pour ajouter une dépense. | Nécessite plus de code qu’un module tiers. |
 
 **Modules tiers :**
 
 | Module   | Service rendu                                      | Limites                               |
-|----------|---------------------------------------------------|--------------------------------------|
-| `pandas` | Manipulation de tableaux de données, lecture/écriture CSV en une ligne. | Plus lourd à installer, syntaxe à apprendre. |
-| `typer`  | Interface console intuitive pour saisir les données. | Nécessite de travailler uniquement en terminal. |
+|----------|---------------------------------------------------|----------------------------------------|
+| `pandas` | Manipulation simple de tableaux, lecture/écriture CSV. | Plus lourd à installer, syntaxe spécifique. |
 
 **Outils externes :**
 
-| Outil             | Service rendu                           | Limites                             |
-|------------------|----------------------------------------|------------------------------------|
-| LibreOffice Calc / Excel | Création manuelle de CSV pour tests. | Non automatisé, ne s’intègre pas au code. |
+| Outil                     | Service rendu                           | Limites                             |
+|---------------------------|------------------------------------------|-------------------------------------|
+| LibreOffice Calc / Excel | Création manuelle de CSV pour tests.     | Non automatisé, externe au projet.  |
 
-**Analyse :**  
+**Analyse :**
 
-- Facilité d’installation : `csv` et `datetime` inclus dans Python.  
-- Facilité d’utilisation : `pandas` simplifie grandement la manipulation.  
-- Compatibilité : Windows/Linux.  
-- Maintenance et communauté : `pandas` et `typer` très bien maintenus, documentation complète.
+- Facilité d’installation : tous les modules standards sont déjà disponibles.  
+- `argparse` permet une interface claire en ligne de commande pour l’utilisateur.  
+- `pathlib` rend la gestion des fichiers plus simple et portable.  
+- `pandas` est puissant mais optionnel pour le noyau minimal.
 
 ---
 
-### 2️ Afficher les dépenses
+### 2 Afficher les dépenses
 
 **Objectif :** Lire le fichier CSV et afficher la liste triée par date.
 
 **Modules standard :**
 
-| Module   | Service rendu              | Limites                     |
-|----------|---------------------------|-----------------------------|
-| `csv`    | Lecture ligne par ligne.   | Nécessite de gérer manuellement le tri et l’affichage. |
-| `datetime` | Comparaison de dates pour trier. | Code plus complexe.       |
+| Module      | Service rendu                                  | Limites                     |
+|-------------|-------------------------------------------------|-----------------------------|
+| `csv`       | Lecture ligne par ligne.                        | Tri manuel obligatoire.     |
+| `datetime`  | Permet de comparer les dates.                   | Plus complexe à coder.      |
+| `pathlib`   | Vérification de l’existence du fichier CSV.     | Pas de traitement de données. |
 
 **Modules tiers :**
 
-| Module   | Service rendu                              | Limites                    |
-|----------|-------------------------------------------|----------------------------|
-| `pandas` | Lecture CSV, tri par date (`df.sort_values("Date")`). | Dépendance tierce.       |
-| `rich`   | Affichage en tableau coloré dans le terminal. | Purement visuel, pas de tri intégré. |
-
-**Outils externes :**
-
-| Outil      | Service rendu                | Limites                       |
-|-----------|------------------------------|-------------------------------|
-| Excel / Google Sheets | Lecture/visualisation manuelle du CSV. | Hors du cadre du projet automatisé. |
+| Module     | Service rendu                                                | Limites           |
+|------------|---------------------------------------------------------------|------------------|
+| `pandas`   | Lecture CSV + tri en une ligne : `df.sort_values("Date")`.    | Dépendance tierce |
+| `rich`     | Affichage amélioré (tableaux colorés) dans le terminal.       | Purement visuel   |
 
 **Analyse :**  
-Utilisation combinée `pandas` + `rich` → solution lisible et rapide à coder.  
-Maintenance : bibliothèques populaires et documentées.
+`pandas` + `rich` = affichage simple, lisible et tri rapide.  
+Solution totalement réalisable sans module tiers pour le noyau minimal.
 
 ---
 
-### 3️ Calculer la balance totale
+### 3 Calculer la balance totale
 
 **Objectif :** Faire la somme automatique des montants après chaque ajout.
 
-| Module   | Service rendu                          | Limites                   |
-|----------|---------------------------------------|---------------------------|
-| `csv`    | Parcourir et additionner les lignes.  | Code long et répétitif.   |
-| `pandas` | Somme directe : `df["Montant"].sum()`. | Nécessite installation.  |
+| Module   | Service rendu                               | Limites                   |
+|----------|----------------------------------------------|---------------------------|
+| `csv`    | Parcours des lignes et addition des montants. | Long à coder, peu flexible. |
+| `pandas` | Calcul direct : `df["Montant"].sum()`.        | Installation nécessaire.  |
 
-**Analyse :**  
-`pandas` rend la tâche quasi instantanée et fiable.  
-Solution standard avec `csv` possible mais plus lourde à maintenir.
+**Analyse :**
+
+- Avec `csv`, cela fonctionne mais est moins pratique.  
+- Avec `pandas`, c’est quasi instantané.
 
 ---
 
-### 4️ Filtrer les dépenses
+### 4 Filtrer les dépenses
 
 **Objectif :** Afficher uniquement certaines dépenses selon une catégorie, une date ou un montant.
 
-| Module   | Service rendu                               | Limites                          |
-|----------|--------------------------------------------|---------------------------------|
-| `csv + datetime` | Filtrage manuel des lignes selon conditions. | Code long et sujet aux erreurs. |
-| `pandas` | Filtrage simple : `df[df["Catégorie"] == "Transport"]`. | Nécessite installation. |
-| `typer`  | Permet de définir des commandes CLI comme `filtrer --categorie Transport`. | Nécessite apprentissage de la CLI. |
+| Module            | Service rendu                                             | Limites                             |
+|-------------------|------------------------------------------------------------|-------------------------------------|
+| `csv + datetime`  | Filtrage manuel des lignes selon conditions.               | Très long à maintenir.              |
+| `pandas`          | Filtrage simple : `df[df["Catégorie"] == "Transport"]`.    | Requiert installation.              |
+| `argparse`        | Permet d’ajouter des options CLI : `--categorie`, `--date`. | Ne filtre pas, sert juste à récupérer l’info. |
 
-**Analyse :**  
-`pandas` reste le meilleur outil pour filtrer rapidement des données structurées.  
-`typer` permet une interface ergonomique pour l’utilisateur.
+**Analyse :**
+
+- `argparse` = interface en ligne de commande pour choisir le filtre.  
+- `pandas` = moteur de filtrage rapide et fiable.  
 
 ---
 
-### 5️ Supprimer une dépense
+### 5 Supprimer une dépense
 
 **Objectif :** Permettre de retirer une dépense du fichier CSV.
 
-| Module   | Service rendu                                  | Limites                                   |
-|----------|-----------------------------------------------|------------------------------------------|
-| `csv`    | Relire tout le fichier, supprimer la ligne, réécrire le fichier. | Lent et fastidieux.                     |
-| `pandas` | Supprime une ligne avec `df.drop(index)` puis `to_csv()`. | Requiert un identifiant clair pour chaque dépense. |
+| Module   | Service rendu                                   | Limites                                     |
+|----------|--------------------------------------------------|---------------------------------------------|
+| `csv`    | Réécriture du fichier sans la ligne supprimée.   | Très manuel et fastidieux.                  |
+| `pandas` | Suppression via `df.drop(index)` puis `to_csv()`. | Besoin d’un identifiant unique.             |
 
 **Analyse :**  
-`pandas` simplifie la suppression et la réécriture automatique du CSV.  
-Gestion manuelle avec `csv` possible mais laborieuse.
-
----
-
-### 6️ Autocomplétion des catégories
-
-**Objectif :** Proposer automatiquement les catégories déjà utilisées.
-
-| Module standard | Service rendu | Limites |
-|----------------|---------------|---------|
-| Aucun          | -             | -       |
-
-| Module tiers     | Service rendu                                  | Limites                                  |
-|-----------------|------------------------------------------------|-----------------------------------------|
-| `readline`      | Gestion basique d’historique sous Linux.      | Peu personnalisable, non portable sous Windows. |
-| `prompt_toolkit`| Autocomplétion avancée multiplateforme.       | Installation nécessaire, un peu technique. |
-
-**Analyse :**  
-`prompt_toolkit` est la solution la plus complète et stable.  
-Compatible Windows, macOS et Linux.
-
----
-
-### 7️ Exporter les dépenses
-
-**Objectif :** Exporter les données dans d’autres formats (PDF, Excel…).
-
-| Module standard | Service rendu | Limites |
-|----------------|---------------|---------|
-| Aucun          | -             | -       |
-
-| Module tiers        | Service rendu                        | Limites                       |
-|-------------------|-------------------------------------|-------------------------------|
-| `pandas + openpyxl`| Export direct vers Excel (.xlsx).   | Styles limités.               |
-| `reportlab`        | Génération de rapports PDF.         | Mise en page manuelle, plus complexe. |
-
-**Outils externes :**
-
-| Outil             | Service rendu                  | Limites                  |
-|------------------|--------------------------------|--------------------------|
-| LibreOffice / Excel | Peut ouvrir les CSV exportés. | Pas intégré au code Python. |
-
-**Analyse :**  
-`pandas` avec `openpyxl` → solution simple pour Excel.  
-`reportlab` → rapports PDF personnalisés mais plus complexe.
+`pandas` rend la suppression plus simple et plus propre.  
+La méthode standard `csv` reste faisable mais lourde.
 
 ---
 
