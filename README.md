@@ -190,3 +190,18 @@ La méthode standard `csv` reste faisable mais lourde.
 | Maintenance / communauté| Stable mais basique | Excellentes (pandas, typer, rich) | Variable |
 | Documentation           | Bonne              | Très bonne         | Limitée à l’outil |
 | Performances            | Correctes          | Très bonnes pour gros fichiers | Hors du code |
+
+## Répartition du travail
+
+Pour ce projet, les tâches ont été réparties comme suit entre les membres du groupe :
+
+### Raissa Mohamed Fazul
+
+- **Ajouter une dépense** : saisie de la somme, intitulé et catégorie, enregistrement dans le fichier CSV avec la date et la balance mise à jour.
+- **Filtrer les dépenses** : possibilité d’afficher uniquement certaines dépenses selon la catégorie, la date ou le montant.
+
+### Adissa Moufid
+
+- **Afficher les dépenses par date** : lecture du fichier CSV et tri des dépenses par date.
+- **Calcul de la balance totale** : somme automatique des montants après chaque ajout.
+- **Supprimer une dépense** : retrait d’une dépense du fichier CSV.
