@@ -41,7 +41,7 @@ def main():
     parser.add_argument("--montant")
     parser.add_argument("--intitule")
     parser.add_argument("--categorie")
-    parser.add_argument("--filtrer")
+    parser.add_argument("--filtrer", help="Filtrer les dépenses par catégorie")
 
     args = parser.parse_args()
 
