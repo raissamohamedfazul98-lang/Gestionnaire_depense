@@ -205,5 +205,3 @@ Pour ce projet, les tâches ont été réparties comme suit entre les membres du
 - **Afficher les dépenses par date** : lecture du fichier CSV et tri des dépenses par date.
 - **Calcul de la balance totale** : somme automatique des montants après chaque ajout.
 - **Supprimer une dépense** : retrait d’une dépense du fichier CSV.
-
-
