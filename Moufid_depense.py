@@ -28,7 +28,7 @@ def ajouter_depense(somme, intitule, categorie):
     df = pd.read_csv(FICHIER)
     df = pd.concat([df, pd.DataFrame([nouvelle_ligne])], ignore_index=True)
     df.to_csv(FICHIER, index=False)
-    print("✅ Dépense ajoutée avec succès !")
+    print(" Dépense ajoutée avec succès !")
 
 def filtrer_depenses(categorie):
     if not FICHIER.exists():
@@ -44,7 +44,7 @@ def supprimer_depense(index):
         return
     df = pd.read_csv(FICHIER)
     if index < 0 or index >= len(df):
-        print("❌ Index invalide.")
+        print(" Index invalide.")
         return
     df = df.drop(index).reset_index(drop=True)
     df.to_csv(FICHIER, index=False)
@@ -68,10 +68,11 @@ if __name__ == "__main__":
         ajouter_depense(somme, intitule, categorie)
 
     if args.balance:
-        print("💰 Balance totale :", calculer_balance())
+        print(" Balance totale :", calculer_balance())
 
     if args.filtrer:
         filtrer_depenses(args.filtrer)
 
     if args.supprimer is not None:
+
         supprimer_depense(args.supprimer)
