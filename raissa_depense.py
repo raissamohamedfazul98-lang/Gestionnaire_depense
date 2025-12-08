@@ -50,7 +50,7 @@ def main():
         print("Erreur : montant, intitulé et catégorie sont obligatoires pour ajouter une dépense.")
         return
       
-        ajouter_depense(args.montant, args.intitule, args.categorie)
+      ajouter_depense(args.montant, args.intitule, args.categorie)
     if args.filtrer:
         filtrer_depenses(args.filtrer)
 
